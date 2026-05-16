@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mitmachen - KlecksX.de</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jersey 25', sans-serif;
+            background-color: #fff;
+            color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #fff;
+            border-bottom: 2px solid #000;
+        }
+
+        .nav-left a {
+            color: #000;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-left a:hover {
+            opacity: 0.7;
+        }
+
+        .nav-center {
+            display: flex;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .nav-center img {
+            height: 60px;
+            background-color: #fff;
+            padding: 5px;
+        }
+
+        .nav-right {
+            width: 100px;
+        }
+
+        /* Slider */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 50%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .slider-text h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .slider-text img {
+            height: 80px;
+        }
+
+        /* Content */
+        .content {
+            flex: 1;
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .download-section {
+            background-color: #eee;
+            border: 2px solid #000;
+            padding: 40px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-family: 'Pixelify Sans', sans-serif;
+            border: 2px solid #000;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .download-btn:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay-content {
+            background-color: #fff;
+            border: 2px solid #000;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .overlay-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .overlay-content p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .overlay-close {
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #000;
+            padding: 10px 30px;
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .overlay-close:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .overlay-download {
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #000;
+            padding: 10px 30px;
+            font-family: 'Pixelify Sans', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-left: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .overlay-download:hover {
+            background-color: #fff;
+            color: #000;
+        }
+
+        /* Map */
+        .map-section {
+            margin-bottom: 60px;
+        }
+
+        .map-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border: 2px solid #000;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .map-info {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .map-info strong {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            border-top: 2px solid #000;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #000;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #000;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            .nav-center img {
+                height: 40px;
+            }
+
+            .slider-container {
+                height: 300px;
+            }
+
+            .slider-text h1 {
+                font-size: 2rem;
+            }
+
+            .slider-text img {
+                height: 50px;
+            }
+
+            .content {
+                padding: 40px 20px;
+            }
+
+            .download-section {
+                padding: 20px;
+            }
+
+            .footer-links {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="index.html">Startseite</a>
+        </div>
+        <div class="nav-center">
+            <img src="Logo.png" alt="KlecksX Logo">
+        </div>
+        <div class="nav-right"></div>
+    </nav>
+
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+                <img src="ai.jpg" alt="Slider Image 1">
+            </div>
+            <div class="slide">
+                <img src="v3sekbw8y2.png" alt="Slider Image 3">
+            </div>
+        </div>
+        <div class="slider-text">
+            <h1>Mitmachen bei</h1>
+            <img src="Logo Kopie.png" alt="KlecksX Logo">
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2>Termine</h2>
+            <p>Die offene Werkstatt findet jeden Samstag von 14 bis 18Uhr statt.</p>
+            <p>Bei anderen Terminen wie den Ferienpassen kündigen wir sie per Instagramm an.</p>
+        </div>
+
+        <div class="section">
+            <h2>Mitgliedschaft</h2>
+            <div class="membership-section">
+                <div class="membership-title">KlecksX Mitgliedschaft</div>
+                <div class="membership-price">30€ <span>p.M.</span>/ mit einer bestehender Klecks Mitgliedschaft 25€ p.M.</div>
+                <ul class="membership-list">
+                    <li>Teilnahme an der Erfinderwerkstatt</li>
+                    <li>Freies Arbeiten an eigenen Projekten</li>
+                    <li>Eigenständigkeit vorausgesetzt (12+ Jahre alt)</li>
+                </ul>
+                <p class="membership-note"><strong>Anmeldung:</strong> Anmeldeformular einfach mitbringen</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Formular Download</h2>
+            <div class="download-section">
+                <p>Laden Sie hier unsere Anmeldeformulare und Informationen herunter.</br>Gerne kann man auch vor einer Anmeldung zum schnuppern vorbeischauen!</p>
+                <button class="download-btn" onclick="showOverlay()">Formula herunterladen</button>
+            </div>
+        </div>
+
+        <div class="map-section">
+            <h2>Standort</h2>
+            <div class="map-container">
+                <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=11.423%2C47.909%2C11.425%2C47.911&amp;layer=mapnik&amp;marker=47.910101%2C11.424097" width="100%" height="100%"></iframe>
+            </div>
+            <div class="map-info">
+                <p><strong>Adresse:</strong> Königsdorfer Str. 35, 82515 Wolfratshausen</p>
+                <p><strong>Anreise:</strong> KlecksX ist mit der S7 nach Wolfratshausen und einem kurzen Fußweg gut zu erreichen.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="mailto:info@klecksx.de">Kontakt</a>
+            <a href="https://phantas.de/impressum">Impressum</a>
+            <a href="https://phantas.de/datenschutzerklaerung/">Datenschutz</a>
+            <a href="https://www.instagram.com/klecksx?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
+        </div>
+        <div class="footer-copyright">
+            © 2026 Klecks - Schule der Phantasie e.V. Wolfratshausen - Design von Arthur Pletzer
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <h3>Formula Download</h3>
+            <p>Sie sind dabei, das Anmeldeformular herunterzuladen.</p>
+            <button class="overlay-close" onclick="closeOverlay()">Abbrechen</button>
+            <a href="formula.pdf" download class="overlay-download">Download</a>
+        </div>
+    </div>
+
+    <script>
+        // Overlay functions
+        function showOverlay() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function closeOverlay() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Close overlay when clicking outside
+        document.getElementById('overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeOverlay();
+            }
+        });
+    </script>
+</body>
+</html>
